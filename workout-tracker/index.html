@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, maximum-scale=1, user-scalable=no">
+<title>Iron Log</title>
+
+<!-- iOS home-screen app behavior -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Iron Log">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#111317">
+
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ===================== HOME / SESSION LIST ===================== -->
+  <section id="view-home" class="view">
+    <header class="top-bar">
+      <h1 class="brand">Iron Log</h1>
+    </header>
+
+    <div id="home-list" class="scroll-area"></div>
+
+    <button id="btn-new-session" class="fab" aria-label="New workout">
+      <svg viewBox="0 0 24 24" width="26" height="26"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+    </button>
+  </section>
+
+  <!-- ===================== ACTIVE SESSION ===================== -->
+  <section id="view-session" class="view hidden">
+    <header class="top-bar">
+      <button class="icon-btn" id="btn-back-home" aria-label="Back">
+        <svg viewBox="0 0 24 24" width="22" height="22"><path d="M15 5l-7 7 7 7" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      </button>
+      <input id="session-name-input" class="session-name-input" placeholder="Workout name" />
+      <button class="icon-btn danger" id="btn-delete-session" aria-label="Delete workout">
+        <svg viewBox="0 0 24 24" width="20" height="20"><path d="M4 7h16M9 7V5a2 2 0 012-2h2a2 2 0 012 2v2m-9 0l1 13a2 2 0 002 2h6a2 2 0 002-2l1-13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+      </button>
+    </header>
+
+    <div class="session-meta" id="session-date"></div>
+
+    <div id="exercise-list" class="scroll-area"></div>
+
+    <button id="btn-add-exercise" class="add-exercise-btn">
+      <svg viewBox="0 0 24 24" width="18" height="18"><path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Add exercise
+    </button>
+  </section>
+
+</div>
+
+<!-- Exercise name prompt sheet -->
+<div id="sheet-backdrop" class="sheet-backdrop hidden">
+  <div class="sheet" id="exercise-sheet">
+    <div class="sheet-handle"></div>
+    <h3>Exercise name</h3>
+    <input id="exercise-name-input" class="sheet-input" placeholder="e.g. Bench Press" autocomplete="off" />
+    <div class="sheet-actions">
+      <button class="btn-secondary" id="btn-cancel-exercise">Cancel</button>
+      <button class="btn-primary" id="btn-save-exercise">Add</button>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
