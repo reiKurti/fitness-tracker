@@ -1,8 +1,10 @@
-const CACHE_NAME = "ironlog-v1";
+const CACHE_NAME = "ironlog-v2";
 const ASSETS = [
   "./",
   "./index.html",
   "./styles.css",
+  "./catalog.js",
+  "./stats.js",
   "./app.js",
   "./manifest.json",
   "./icon-192.png",
@@ -10,9 +12,7 @@ const ASSETS = [
 ];
 
 self.addEventListener("install", (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS))
-  );
+  event.waitUntil(caches.open(CACHE_NAME).then((cache) => cache.addAll(ASSETS)));
   self.skipWaiting();
 });
 
@@ -25,14 +25,20 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+// Network first (so updates show up as soon as you're online), cache as offline fallback
 self.addEventListener("fetch", (event) => {
+  if (event.request.method !== "GET") return;
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      return cached || fetch(event.request).then((response) => {
-        const copy = response.clone();
-        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+    fetch(event.request)
+      .then((response) => {
+        if (response.ok) {
+          const copy = response.clone();
+          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, copy));
+        }
         return response;
-      }).catch(() => cached);
-    })
+      })
+      .catch(() =>
+        caches.match(event.request).then((cached) => cached || caches.match("./index.html"))
+      )
   );
 });
